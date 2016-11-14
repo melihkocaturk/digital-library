@@ -19,6 +19,7 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class BookController  {
 	private List<Book> books;
+	private Book book;
 	private BookDbUtil bookDbUtil;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
@@ -78,16 +79,9 @@ public class BookController  {
 		try {
 			// get book from database
 			Book theBook = bookDbUtil.getBook(bookId);
+			this.setBook(theBook);
 			
-			logger.info("theBook: " + theBook);
-			
-			// put in the request attribute ... so we can use it on the form page
-			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();	
-
-			Map<String, Object> requestMap = externalContext.getRequestMap();
-			requestMap.put("book", theBook);
-			
-			logger.info("requestMap: " + requestMap);
+			logger.info("loading book: " + this.book);
 		} catch (Exception exc) {
 			// send this to server logs
 			logger.log(Level.SEVERE, "Error loading book id:" + bookId, exc);
@@ -98,25 +92,17 @@ public class BookController  {
 			return null;
 		}
 				
-		return "update-book-form.xhtml";
+		return "update-book-form?faces-redirect=true";
 	}	
 	
-	public String updateBook(Book theBook) {
-		// logger.info("updating book: " + theBook);
-		
-		/*
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		Map<String, Object> requestMap = externalContext.getRequestMap();
-		logger.info("requestMap: " + requestMap);
-		*/
-		
+	public String updateBook() {		
 		try {
 			// update book in the database
-			bookDbUtil.updateBook(theBook);
+			bookDbUtil.updateBook(this.book);
 			// logger.info("updating book: " + theBook);
 		} catch (Exception exc) {
 			// send this to server logs
-			logger.log(Level.SEVERE, "Error updating book: " + theBook, exc);
+			logger.log(Level.SEVERE, "Error updating book: " + this.book, exc);
 			
 			// add error message for JSF page
 			addErrorMessage(exc);
@@ -146,6 +132,14 @@ public class BookController  {
 		
 		return "books";	
 	}	
+	
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
 	
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());

@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="tr"
+<html lang="en"
 	  xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
@@ -11,6 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><ui:insert name="title">Update Book</ui:insert></title>
+	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
@@ -18,45 +19,44 @@
 
 	<div id="header">
 	    <ui:insert name="header">
-	    	<ui:include src="/header.xhtml"/>
+	    	<ui:include src="/admin/header.xhtml"/>
 	    </ui:insert>
 	</div>
 	
 	<div id="content">
 	  <ui:insert name="content">
-	  
-		<h3>Update Book</h3>
 	    
-		<h:messages globalOnly="true" />
-
-		<h:form id="form" style="margin-top: 10px;">
-			<h:panelGrid columns="3">			
-			
-				<h:outputLabel>Title:</h:outputLabel> <h:inputText value="#{book.title}" id="title" /> <h:message for="title" />
+	    <b:container>
+	    	<h3>Update Book</h3>
+			<h:messages globalOnly="true" />
 	
-				<h:outputLabel>Description:</h:outputLabel> <h:inputText value="#{book.description}" id="description" /> <h:message for="description" />
+			<h:form id="form">	
+				
+				<b:inputText value="#{bookController.book.title}" id="title" label="Title" renderLabel="true"/> <h:message for="title" />
 	
-				<h:outputLabel>Category:</h:outputLabel> <h:inputText value="#{book.category_id}" id="category_id" /> <h:message for="category_id" />
+				<b:inputText value="#{bookController.book.description}" id="description" label="Description" renderLabel="true"/> <h:message for="description" />
+	
+				<b:inputText value="#{bookController.book.category_id}" id="category_id" label="Category" renderLabel="true"/> <h:message for="category_id" />
 				
-				<h:outputLabel>Author:</h:outputLabel> <h:inputText value="#{book.author}" id="author" />
+				<b:inputText value="#{bookController.book.author}" id="author" label="Author" renderLabel="true"/> <h:message for="author" />
 				
-				<h:inputHidden value="#{book.id}" />
+				<h:inputHidden value="#{bookController.book.id}" />
 				
-				<h:commandButton value="Save" action="#{bookController.updateBook(book)}"/>
-			
-			</h:panelGrid>
-		</h:form>
-
-		<div style="clear: both;"></div>
-
-		<p><h:outputLink value="books.xhtml">Back to List</h:outputLink></p>
+				<b:commandButton value="Save" action="#{bookController.updateBook()}" look="primary"/>
+				
+			</h:form>
+	
+			<div style="clear: both;"></div>
+			<p>&nbps;</p>
+			<p><h:outputLink value="books.xhtml">Back to List</h:outputLink></p>
+		</b:container>
 		
 	  </ui:insert>
 	</div>
 	
 	<div id="footer">
 	  <ui:insert name="footer">
-		<ui:include src="/footer.xhtml"/>
+		<ui:include src="/admin/footer.xhtml"/>
 	  </ui:insert>
 	</div>
 
