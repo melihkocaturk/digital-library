@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="tr"
+	  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><ui:insert name="title">Update Book</ui:insert></title>
+</h:head>
+
+<h:body>
+	<ui:debug hotkey="x" rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}"/>
+
+	<div id="header">
+	    <ui:insert name="header">
+	    	<ui:include src="/header.xhtml"/>
+	    </ui:insert>
+	</div>
+	
+	<div id="content">
+	  <ui:insert name="content">
+	  
+		<h3>Update Book</h3>
+	    
+		<h:messages globalOnly="true" />
+
+		<h:form id="form" style="margin-top: 10px;">
+			<h:panelGrid columns="3">			
+			
+				<h:outputLabel>Title:</h:outputLabel> <h:inputText value="#{book.title}" id="title" /> <h:message for="title" />
+	
+				<h:outputLabel>Description:</h:outputLabel> <h:inputText value="#{book.description}" id="description" /> <h:message for="description" />
+	
+				<h:outputLabel>Category:</h:outputLabel> <h:inputText value="#{book.category_id}" id="category_id" /> <h:message for="category_id" />
+				
+				<h:outputLabel>Author:</h:outputLabel> <h:inputText value="#{book.author}" id="author" />
+				
+				<h:inputHidden value="#{book.id}" />
+				
+				<h:commandButton value="Save" action="#{bookController.updateBook(book)}"/>
+			
+			</h:panelGrid>
+		</h:form>
+
+		<div style="clear: both;"></div>
+
+		<p><h:outputLink value="books.xhtml">Back to List</h:outputLink></p>
+		
+	  </ui:insert>
+	</div>
+	
+	<div id="footer">
+	  <ui:insert name="footer">
+		<ui:include src="/footer.xhtml"/>
+	  </ui:insert>
+	</div>
+
+</h:body>
+
+</html>
