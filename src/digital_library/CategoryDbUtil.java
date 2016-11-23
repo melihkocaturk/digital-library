@@ -13,22 +13,22 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public class BookDbUtil {
+public class CategoryDbUtil {
 
-	private static BookDbUtil instance;
+	private static CategoryDbUtil instance;
 	private DataSource dataSource;
 	private String jndiName = "java:comp/env/jdbc/digital_library";
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
-	public static BookDbUtil getInstance() throws Exception {
+	public static CategoryDbUtil getInstance() throws Exception {
 		if (instance == null) {
-			instance = new BookDbUtil();
+			instance = new CategoryDbUtil();
 		}
 		
 		return instance;
 	}
 	
-	private BookDbUtil() throws Exception {		
+	private CategoryDbUtil() throws Exception {		
 		dataSource = getDataSource();
 	}
 
@@ -40,9 +40,9 @@ public class BookDbUtil {
 		return theDataSource;
 	}
 		
-	public List<Book> getBooks() throws Exception {
+	public List<Category> getCategories() throws Exception {
 
-		List<Book> books = new ArrayList<>();
+		List<Category> categories = new ArrayList<>();
 
 		Connection myConn = null;
 		Statement myStmt = null;
@@ -51,7 +51,7 @@ public class BookDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "SELECT * FROM books ORDER BY id DESC";
+			String sql = "SELECT * FROM categories ORDER BY id DESC";
 
 			myStmt = myConn.createStatement();
 
@@ -62,28 +62,23 @@ public class BookDbUtil {
 				
 				// retrieve data from result set row
 				int id = myRs.getInt("id");
-				int category_id = myRs.getInt("category_id");
-				String title = myRs.getString("title");
-				String description = myRs.getString("description");
-				String author = myRs.getString("author");
-				String image = myRs.getString("image");
-				String pdf = myRs.getString("pdf");
+				String name = myRs.getString("name");
 
-				// create new book object
-				Book book = new Book(id, category_id, title, description, author, image, pdf);
+				// create new category object
+				Category category = new Category(id, name);
 
-				// add it to the list of books
-				books.add(book);
+				// add it to the list of categories
+				categories.add(category);
 			}
 			
-			return books;
+			return categories;
 		}
 		finally {
 			close (myConn, myStmt, myRs);
 		}
 	}
 
-	public void addBook(Book theBook) throws Exception {
+	public void addCategory(Category theCategory) throws Exception {
 
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -91,17 +86,12 @@ public class BookDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "INSERT INTO books (category_id, title, description, author, image, pdf) values (?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO categories (name) values (?)";
 
 			myStmt = myConn.prepareStatement(sql);
 
 			// set params
-			myStmt.setInt(1, theBook.getCategory_id());
-			myStmt.setString(2, theBook.getTitle());
-			myStmt.setString(3, theBook.getDescription());
-			myStmt.setString(4, theBook.getAuthor());
-			myStmt.setString(5, theBook.getImage());
-			myStmt.setString(6, theBook.getPdf());
+			myStmt.setString(1, theCategory.getName());
 			
 			myStmt.execute();			
 		}
@@ -111,7 +101,7 @@ public class BookDbUtil {
 		
 	}
 	
-	public Book getBook(int bookId) throws Exception {
+	public Category getCategory(int categoryId) throws Exception {
 	
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -120,42 +110,37 @@ public class BookDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "SELECT * FROM books WHERE id=?";
+			String sql = "SELECT * FROM categories WHERE id=?";
 
 			myStmt = myConn.prepareStatement(sql);
 			
 			// set params
-			myStmt.setInt(1, bookId);
+			myStmt.setInt(1, categoryId);
 			
 			myRs = myStmt.executeQuery();
 
-			Book theBook = null;
+			Category theCategory = null;
 			
 			// retrieve data from result set row
 			if (myRs.next()) {
 				int id = myRs.getInt("id");
-				int category_id = myRs.getInt("category_id");
-				String title = myRs.getString("title");
-				String description = myRs.getString("description");
-				String author = myRs.getString("author");
-				String image = myRs.getString("image");
-				String pdf = myRs.getString("pdf");
+				String name = myRs.getString("name");
 
-				theBook = new Book(id, category_id, title, description, author, image, pdf);
+				theCategory = new Category(id, name);
 			}
 			else {
-				throw new Exception("Could not find book id: " + bookId);
+				throw new Exception("Could not find category id: " + categoryId);
 			}
 
-			return theBook;
+			return theCategory;
 		}
 		finally {
 			close (myConn, myStmt, myRs);
 		}
 	}
 	
-	public void updateBook(Book theBook) throws Exception {
-		logger.info("theBook: " + theBook);
+	public void updateCategory(Category theCategory) throws Exception {
+		logger.info("theCategory: " + theCategory);
 		
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -163,20 +148,15 @@ public class BookDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "UPDATE books "
-						+ " SET category_id=?, title=?, description=?, author=?, image=?, pdf=?"
+			String sql = "UPDATE categories "
+						+ " SET name=?"
 						+ " WHERE id=?";
 
 			myStmt = myConn.prepareStatement(sql);
 			
 			// set params
-			myStmt.setInt(1, theBook.getCategory_id());
-			myStmt.setString(2, theBook.getTitle());
-			myStmt.setString(3, theBook.getDescription());
-			myStmt.setString(4, theBook.getAuthor());
-			myStmt.setString(5, theBook.getImage());
-			myStmt.setString(6, theBook.getPdf());
-			myStmt.setInt(7, theBook.getId());
+			myStmt.setString(1, theCategory.getName());
+			myStmt.setInt(2, theCategory.getId());
 			
 			myStmt.execute();
 			
@@ -188,7 +168,7 @@ public class BookDbUtil {
 		
 	}
 	
-	public void deleteBook(int bookId) throws Exception {
+	public void deleteCategory(int categoryId) throws Exception {
 
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -196,12 +176,12 @@ public class BookDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "DELETE FROM books WHERE id=?";
+			String sql = "DELETE FROM categories WHERE id=?";
 
 			myStmt = myConn.prepareStatement(sql);
 
 			// set params
-			myStmt.setInt(1, bookId);
+			myStmt.setInt(1, categoryId);
 			
 			myStmt.execute();
 		}

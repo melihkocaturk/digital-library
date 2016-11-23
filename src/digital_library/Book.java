@@ -1,6 +1,7 @@
 package digital_library;
 
 import javax.faces.bean.ManagedBean;
+import javax.servlet.http.Part;
 
 @ManagedBean(name = "book")
 public class Book {
@@ -9,16 +10,22 @@ public class Book {
 	private String title;
 	private String description;
 	private String author;
+	private Part imagePart;
+	private Part pdfPart;
+	private String image;
+	private String pdf;
 	
 	public Book() {
 	}
 	
-	public Book(int id, int category_id, String title, String description, String author) {
+	public Book(int id, int category_id, String title, String description, String author, String image, String pdf) {
 		this.id = id;
 		this.category_id = category_id;
 		this.title = title;
 		this.description = description;
 		this.author = author;
+		this.image = image;
+		this.pdf = pdf;
 	}
 
 	public int getId() {
@@ -60,10 +67,42 @@ public class Book {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
+
+	public Part getImagePart() {
+		return imagePart;
+	}
+
+	public void setImagePart(Part imagePart) {
+		this.imagePart = imagePart;
+	}
+
+	public Part getPdfPart() {
+		return pdfPart;
+	}
+
+	public void setPdfPart(Part pdfPart) {
+		this.pdfPart = pdfPart;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(String pdf) {
+		this.pdf = pdf;
+	}
+
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", category_id=" + category_id + ", title=" + title + ", description="
-				+ description + ", author=" + author + "]";
+				+ description + ", author=" + author + ", image=" + image + ", pdf=" + pdf + "]";
 	}
 }

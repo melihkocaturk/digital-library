@@ -8,13 +8,13 @@
 	  xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-  <f:event type="preRenderView" listener="#{bookController.loadBooks()}"/>
+  <f:event type="preRenderView" listener="#{categoryController.loadCategories()}"/>
 </f:metadata>
 
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><ui:insert name="title">Books</ui:insert></title>
+	<title><ui:insert name="title">Categories</ui:insert></title>
 	<h:outputStylesheet library="css" name="admin.css" />
 </h:head>
 
@@ -34,30 +34,14 @@
 			<h:messages globalOnly="true" />
 			
 			<h:form>
-			<b:dataTable value="#{bookController.books}" var="book">
+			<b:dataTable value="#{categoryController.categories}" var="category">
 			
 				<b:column>
 					<!-- the column header -->
-					<f:facet name="header">Title</f:facet>
+					<f:facet name="header">Name</f:facet>
 			
 					<!--  the value for each row -->
-					#{book.title}
-				</b:column>
-				
-				<b:column>
-					<!-- the column header -->
-					<f:facet name="header">Category</f:facet>
-			
-					<!--  the value for each row -->
-					#{book.category_id}
-				</b:column>
-			
-				<b:column>
-					<!-- the column header -->
-					<f:facet name="header">Author</f:facet>
-			
-					<!--  the value for each row -->
-					#{book.author}
+					#{category.name}
 				</b:column>
 			
 				<h:column>
@@ -66,20 +50,20 @@
 			
 					<!--  the value for each row -->
 					<h:commandLink value="Update"
-						action="#{bookController.loadBook(book.id)}"/>
+						action="#{categoryController.loadCategory(category.id)}"/>
 						
 					<h:outputText value="&nbsp;" escape="false"/>
 					  
 					<h:commandLink value="Delete"
-						onclick="if (!confirm('Are you sure you want to delete this book?')) return false"
-						action="#{bookController.deleteBook(book.id)}"/>
+						onclick="if (!confirm('Are you sure you want to delete this category?')) return false"
+						action="#{categoryController.deleteCategory(category.id)}"/>
 					
 				</h:column>
 			
 			</b:dataTable>
 			</h:form>
 			
-			<b:button value="Add Book" outcome="add-book-form" look="primary"/>
+			<b:button value="Add Category" outcome="add-category-form" look="primary"/>
 		</b:container>
 		
 	  </ui:insert>

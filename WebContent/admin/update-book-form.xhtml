@@ -7,11 +7,15 @@
 	  xmlns:h="http://xmlns.jcp.org/jsf/html"
 	  xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+<f:metadata>
+  <f:event type="preRenderView" listener="#{categoryController.loadCategories()}"/>
+</f:metadata>
+
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><ui:insert name="title">Update Book</ui:insert></title>
-	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="admin.css" />
 </h:head>
 
 <h:body>
@@ -30,18 +34,33 @@
 	    	<h3>Update Book</h3>
 			<h:messages globalOnly="true" />
 	
-			<h:form id="form">	
+			<h:form id="form" enctype="multipart/form-data">	
 				
 				<b:inputText value="#{bookController.book.title}" id="title" label="Title" renderLabel="true"/> <h:message for="title" />
 	
 				<b:inputText value="#{bookController.book.description}" id="description" label="Description" renderLabel="true"/> <h:message for="description" />
-	
-				<b:inputText value="#{bookController.book.category_id}" id="category_id" label="Category" renderLabel="true"/> <h:message for="category_id" />
+				
+				<b:selectOneMenu value="#{bookController.book.category_id}" label="Category" renderLabel="true">
+				   <f:selectItems value="#{categoryController.categories}" var="entry" 
+     					itemValue="#{entry.id}" itemLabel="#{entry.name}"/>	   							
+				</b:selectOneMenu>
 				
 				<b:inputText value="#{bookController.book.author}" id="author" label="Author" renderLabel="true"/> <h:message for="author" />
+
+				<h:outputLabel for="imagePart">Image</h:outputLabel>
+				<h:inputFile value="#{bookController.book.imagePart}" id="imagePart"/> <h:message for="imagePart" />
+				
+				<h:outputText value="&lt;br/&gt;" escape="false" />
+
+				<h:outputLabel for="pdfPart">Pdf</h:outputLabel>
+				<h:inputFile value="#{bookController.book.pdfPart}" id="pdfPart"/> <h:message for="pdfPart" />
+				
+				<h:outputText value="&lt;br/&gt;" escape="false" />
 				
 				<h:inputHidden value="#{bookController.book.id}" />
-				
+				<h:inputHidden value="#{bookController.book.image}" />
+				<h:inputHidden value="#{bookController.book.pdf}" />
+
 				<b:commandButton value="Save" action="#{bookController.updateBook()}" look="primary"/>
 				
 			</h:form>

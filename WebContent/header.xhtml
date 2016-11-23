@@ -3,10 +3,61 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition>
-	<h1>Header</h1>
+
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"><span>Digital Library</span></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active">
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="mailto:info@digitallibrary.com">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+	<div class="jumbotron" style="background-image : url('#{resource['images:stack_of_books.jpg']}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1 class="text-inverse">Heading</h1>
+                    <p class="text-inverse">Lorem ipsum dolor sit amet, consectetur adipisici eli.</p>
+                    <br/>
+                    <br/>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <form role="form">
+                            <div class="form-group">
+                                <div class="input-group input-group-lg">
+                                    <input type="text" class="form-control" placeholder="Search"></input>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-success" type="submit">Go</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
 </ui:composition>
 </html>

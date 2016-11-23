@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><ui:insert name="title">Update Category</ui:insert></title>
+	<h:outputStylesheet library="css" name="admin.css" />
+</h:head>
+
+<h:body>
+	<ui:debug hotkey="x" rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}"/>
+
+	<div id="header">
+	    <ui:insert name="header">
+	    	<ui:include src="/admin/header.xhtml"/>
+	    </ui:insert>
+	</div>
+	
+	<div id="content">
+	  <ui:insert name="content">
+	    
+	    <b:container>
+	    	<h3>Update Category</h3>
+			<h:messages globalOnly="true" />
+	
+			<h:form id="form">	
+				
+				<b:inputText value="#{categoryController.category.name}" id="name" label="Name" renderLabel="true"/> <h:message for="name" />
+				
+				<h:inputHidden value="#{categoryController.category.id}" />
+				
+				<b:commandButton value="Save" action="#{categoryController.updateCategory()}" look="primary"/>
+				
+			</h:form>
+	
+			<div style="clear: both;"></div>
+			<p>&nbps;</p>
+			<p><h:outputLink value="books.xhtml">Back to List</h:outputLink></p>
+		</b:container>
+		
+	  </ui:insert>
+	</div>
+	
+	<div id="footer">
+	  <ui:insert name="footer">
+		<ui:include src="/admin/footer.xhtml"/>
+	  </ui:insert>
+	</div>
+
+</h:body>
+
+</html>
