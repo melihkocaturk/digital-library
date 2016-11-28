@@ -188,7 +188,53 @@ public class CategoryDbUtil {
 		finally {
 			close (myConn, myStmt);
 		}		
-	}	
+	}
+	
+	public List<Book> getBooks(int categoryId) throws Exception {
+
+		List<Book> books = new ArrayList<>();
+
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myConn = getConnection();
+
+			String sql = "SELECT * FROM books WHERE category_id=? ORDER BY id DESC";
+
+			myStmt = myConn.prepareStatement(sql);
+
+			// set params
+			myStmt.setInt(1, categoryId);
+
+			myRs = myStmt.executeQuery();
+			
+			// process result set
+			while (myRs.next()) {
+				
+				// retrieve data from result set row
+				int id = myRs.getInt("id");
+				int category_id = myRs.getInt("category_id");
+				String title = myRs.getString("title");
+				String description = myRs.getString("description");
+				String author = myRs.getString("author");
+				String image = myRs.getString("image");
+				String pdf = myRs.getString("pdf");
+
+				// create new book object
+				Book book = new Book(id, category_id, title, description, author, image, pdf);
+
+				// add it to the list of books
+				books.add(book);
+			}
+			
+			return books;
+		}
+		finally {
+			close (myConn, myStmt, myRs);
+		}
+	}
 	
 	private Connection getConnection() throws Exception {
 

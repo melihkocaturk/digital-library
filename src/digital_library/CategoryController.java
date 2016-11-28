@@ -19,12 +19,14 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class CategoryController {
 	private List<Category> categories;
+	private List<Book> books;
 	private Category category;
 	private CategoryDbUtil categoryDbUtil;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
 	public CategoryController() throws Exception {
 		categories = new ArrayList<>();
+		books = new ArrayList<>();
 		
 		categoryDbUtil = CategoryDbUtil.getInstance();
 	}
@@ -73,7 +75,7 @@ public class CategoryController {
 		return "categories?faces-redirect=true";
 	}
 
-	public String loadCategory(int categoryId) {
+	public String loadCategory(int categoryId, String url) {
 		logger.info("loading category: " + categoryId);
 		
 		try {
@@ -92,7 +94,7 @@ public class CategoryController {
 			return null;
 		}
 				
-		return "update-category-form?faces-redirect=true";
+		return url + "?faces-redirect=true";
 	}	
 	
 	public String updateCategory() {		
@@ -140,6 +142,29 @@ public class CategoryController {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	public void loadBooks(int categoryId) {
+		
+		logger.info("Loading books");
+		books.clear();
+
+		try {
+			// get categories books from database
+			books = categoryDbUtil.getBooks(categoryId);
+			
+		} catch (Exception exc) {
+			// send this to server logs
+			logger.log(Level.SEVERE, "Error loading books", exc);
+			
+			// add error message for JSF page
+			addErrorMessage(exc);
+		}
+		
+	}
+	
+	public List<Book> getBooks() {
+		return books;
+	}	
 
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());

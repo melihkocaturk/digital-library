@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en"
@@ -5,16 +6,18 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
 	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 <f:metadata>
   <f:event type="preRenderView" listener="#{categoryController.loadCategories()}"/>
+  <f:event type="preRenderView" listener="#{bookController.loadBooks()}"/>
 </f:metadata>
 
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><ui:insert name="title">Digital Library</ui:insert></title>
+	<title><ui:insert name="title">Dijital Kütüphane</ui:insert></title>
 	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
@@ -31,15 +34,45 @@
 		<ui:insert name="content">
 		
 			<div class="container">
+				<ul class="breadcrumb">
+				    <li>
+				        <a href="#">Home</a>
+				    </li>
+				    <li>
+				        <a href="#">Library</a>
+				    </li>
+				    <li class="active">Data</li>
+				</ul>
 				<div class="row">
 					<div class="col-md-3">
+						<h3>Kategoriler</h3>
+						
 						<div class="list-group">
 							<ui:repeat value="#{categoryController.categories}" var="category">
-								<a href="" class="list-group-item">#{category.name}</a>           
+								<h:form>
+									<h:commandLink value="#{category.name}" action="#{categoryController.loadCategory(category.id, 'category')}" class="list-group-item"/>    
+								</h:form>
 							</ui:repeat>
 						</div>
 					</div>
-					<div class="col-md-9"></div>
+					<div class="col-md-9">
+						<h3>Yeni Eklenenler</h3>
+						
+						<div class="row">
+							<ui:repeat value="#{bookController.books}" var="book" size="2">
+			                    <div class="col-md-3">
+			                        <img src="/DigitalLibrary/uploads/image/#{book.image}" class="img-responsive"></img>
+			                        <h4>#{book.title}</h4>			                        
+			                        <p><h:outputText value="#{fn:substring(book.description,0,100)}" /></p>
+			                        <div class="text-center">
+				                        <h:form>
+				                        	<h:commandLink value="İncele" action="#{bookController.loadBook(book.id, 'book')}" class="btn btn-primary"/>
+				                        </h:form>
+			                        </div>
+			                    </div>
+			                </ui:repeat>
+			            </div>
+					</div>
 				</div>
 			</div>
 			

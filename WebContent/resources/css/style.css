@@ -3733,6 +3733,7 @@ tbody.collapse.in {
   margin-bottom: 0;
 }
 .input-group-lg > .form-control,
+.input-group-lg > .form-group > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
   height: 46px;

@@ -56,7 +56,54 @@ public class BookDbUtil {
 			myStmt = myConn.createStatement();
 
 			myRs = myStmt.executeQuery(sql);
+			
+			// process result set
+			while (myRs.next()) {
+				
+				// retrieve data from result set row
+				int id = myRs.getInt("id");
+				int category_id = myRs.getInt("category_id");
+				String title = myRs.getString("title");
+				String description = myRs.getString("description");
+				String author = myRs.getString("author");
+				String image = myRs.getString("image");
+				String pdf = myRs.getString("pdf");
 
+				// create new book object
+				Book book = new Book(id, category_id, title, description, author, image, pdf);
+
+				// add it to the list of books
+				books.add(book);
+			}
+			
+			return books;
+		}
+		finally {
+			close (myConn, myStmt, myRs);
+		}
+	}
+	
+	public List<Book> searchBook(String keyword) throws Exception {
+		logger.info("keyword: " + keyword);
+		
+		List<Book> books = new ArrayList<>();
+
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myConn = getConnection();
+
+			String sql = "SELECT * FROM books WHERE title LIKE ? ORDER BY id DESC";
+
+			myStmt = myConn.prepareStatement(sql);
+			
+			// set params
+			myStmt.setString(1, "%" + keyword + "%");
+
+			myRs = myStmt.executeQuery();
+			
 			// process result set
 			while (myRs.next()) {
 				
