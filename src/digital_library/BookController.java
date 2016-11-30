@@ -22,6 +22,7 @@ import javax.servlet.http.Part;
 public class BookController {
 	private List<Book> books;
 	private List<Book> search;
+	private List<Comment> comments;
 	private String keyword;
 	private Book book;
 	private BookDbUtil bookDbUtil;
@@ -31,6 +32,7 @@ public class BookController {
 	public BookController() throws Exception {
 		books = new ArrayList<>();
 		search = new ArrayList<>();
+		comments = new ArrayList<>();
 		
 		bookDbUtil = BookDbUtil.getInstance();
 	}
@@ -215,7 +217,24 @@ public class BookController {
 		return "books";	
 	}
 	
+	public void loadComments(int bookId) {
+		
+		logger.info("Loading comments");
+		comments.clear();
 
+		try {
+			// get all comments from database
+			comments = bookDbUtil.getComments(bookId);
+			
+		} catch (Exception exc) {
+			// send this to server logs
+			logger.log(Level.SEVERE, "Error loading comments", exc);
+			
+			// add error message for JSF page
+			addErrorMessage(exc);
+		}
+		
+	}
 	
 	public Book getBook() {
 		return book;
@@ -224,6 +243,10 @@ public class BookController {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}	
 	
 	private String getFileName(Part part) {
 		String header = part.getHeader("content-disposition");

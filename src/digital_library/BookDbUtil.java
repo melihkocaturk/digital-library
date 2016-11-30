@@ -257,6 +257,49 @@ public class BookDbUtil {
 		}		
 	}	
 	
+	public List<Comment> getComments(int bookId) throws Exception {
+
+		List<Comment> comments = new ArrayList<>();
+
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myConn = getConnection();
+
+			String sql = "SELECT * FROM comments WHERE book_id=? ORDER BY id DESC";
+
+			myStmt = myConn.prepareStatement(sql);
+
+			// set params
+			myStmt.setInt(1, bookId);
+
+			myRs = myStmt.executeQuery();
+
+			// process result set
+			while (myRs.next()) {
+				
+				// retrieve data from result set row
+				int id = myRs.getInt("id");
+				int book_id = myRs.getInt("book_id");
+				String title = myRs.getString("title");
+				String content = myRs.getString("content");
+
+				// create new comment object
+				Comment comment = new Comment(id, book_id, title, content);
+
+				// add it to the list of comments
+				comments.add(comment);
+			}
+			
+			return comments;
+		}
+		finally {
+			close (myConn, myStmt, myRs);
+		}
+	}
+	
 	private Connection getConnection() throws Exception {
 
 		Connection theConn = dataSource.getConnection();

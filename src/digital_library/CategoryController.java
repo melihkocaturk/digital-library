@@ -135,14 +135,6 @@ public class CategoryController {
 		return "categories";	
 	}	
 	
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
 	public void loadBooks(int categoryId) {
 		
 		logger.info("Loading books");
@@ -160,6 +152,14 @@ public class CategoryController {
 			addErrorMessage(exc);
 		}
 		
+	}
+	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
 	public List<Book> getBooks() {
