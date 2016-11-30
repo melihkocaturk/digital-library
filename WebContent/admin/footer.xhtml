@@ -9,7 +9,18 @@
 <ui:composition>
 	<footer class="footer">
 	    <div class="container">
-	    	<p class="text-muted">Dijital Kütüphane Projesi</p>
+		    <div class="row">
+			    <div class="col-md-6">
+			    	Dijital Kütüphane Projesi
+			    </div>
+		    	<div class="col-md-6">
+			    	<span class="text-right">
+				    	<h:form>
+				    		<h:commandLink action="#{loginController.logout}" value="Logout" class="pull-right"></h:commandLink>
+			    		</h:form>
+			    	</span>		    	
+		    	</div>
+		    </div>
 	    </div>
     </footer>
 </ui:composition>
