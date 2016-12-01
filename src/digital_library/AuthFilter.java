@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
  
 @WebFilter(filterName = "AuthFilter", urlPatterns = {"/faces/admin/*"})
 public class AuthFilter implements Filter {
-     
+	
     public AuthFilter() {
     	
     }
@@ -26,24 +26,26 @@ public class AuthFilter implements Filter {
  
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-         try {
+    	try {
             // check whether session variable is set
-            HttpServletRequest req = (HttpServletRequest) request;
-            HttpServletResponse res = (HttpServletResponse) response;
-            HttpSession ses = req.getSession(false);
+            HttpServletRequest Request = (HttpServletRequest) request;
+            HttpServletResponse Response = (HttpServletResponse) response;
+            HttpSession Session = Request.getSession(false);
             
-            //  allow user to proccede if url is login.xhtml or user logged in or user is accessing any page in //public folder
-            String reqURI = req.getRequestURI();
-            if ( reqURI.indexOf("/login.xhtml") >= 0 || (ses != null && ses.getAttribute("username") != null)
-                                       || reqURI.indexOf("/public/") >= 0 || reqURI.contains("javax.faces.resource") )
-                   chain.doFilter(request, response);
-            else   // user didn't log in but asking for a page that is not allowed so take user to login page
-                   res.sendRedirect(req.getContextPath() + "/faces/admin/login.xhtml");  // Anonymous user. Redirect to login page
-      }
-     catch(Throwable t) {
-         System.out.println( t.getMessage());
-     }
-    } //doFilter
+            // allow user to proceed if url is login.xhtml or user logged in
+            String requestURI = Request.getRequestURI();
+            
+            if (requestURI.indexOf("/login.xhtml") >= 0 || (Session != null && Session.getAttribute("username") != null) || requestURI.contains("javax.faces.resource")) {
+            	chain.doFilter(request, response);
+            } else {
+            	// redirect to login page.
+            	Response.sendRedirect(Request.getContextPath() + "/faces/admin/login.xhtml");
+            }
+		
+    	} catch(Throwable t) {
+			System.out.println( t.getMessage());
+		}
+    }
  
     @Override
     public void destroy() {
