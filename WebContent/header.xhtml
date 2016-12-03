@@ -23,10 +23,10 @@
             <div class="collapse navbar-collapse" id="navbar-ex-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active">
-                        <a href="#{request.contextPath}/faces/index.xhtml">Anasayfa</a>
+                        <a href="#{request.contextPath}/faces/index.xhtml" style="padding: 15px">Anasayfa</a>
                     </li>
                     <li>
-                        <a href="mailto:info@digitallibrary.com">İletişim</a>
+                        <a href="mailto:info@digitallibrary.com" style="padding: 15px">İletişim</a>
                     </li>
                 </ul>
             </div>
@@ -37,8 +37,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h1 class="text-inverse">Heading</h1>
-                    <p class="text-inverse">Lorem ipsum dolor sit amet, consectetur adipisici eli.</p>
+                    <h1 class="text-inverse">Dijital Kütüphane</h1>
+                    <p class="text-inverse">Her zaman heryerde okuyun</p>
                     <br/>
                     <br/>
                 </div>
@@ -48,9 +48,9 @@
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
 	                                <h:form id="search">
-	                                    <b:inputText value="#{bookController.keyword}" id="keyword" class="form-control" placeholder="Search"/>
+	                                    <b:inputText value="#{bookController.keyword}" id="keyword" class="form-control" placeholder="Kitap başlıklarında ara..."/>
 	                                    <span class="input-group-btn">  
-	                                        <b:commandButton value="Go" action="#{bookController.searchBook(bookController.keyword)}" look="btn btn-success" style="margin-left: 5px"/>
+	                                        <b:commandButton value="Ara" action="#{bookController.searchBook(bookController.keyword)}" look="btn btn-success" style="margin-left: 5px"/>
 	                                    </span>
 	                                </h:form>
                                 </div>

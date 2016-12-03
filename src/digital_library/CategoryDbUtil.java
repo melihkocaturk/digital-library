@@ -219,11 +219,14 @@ public class CategoryDbUtil {
 				String title = myRs.getString("title");
 				String description = myRs.getString("description");
 				String author = myRs.getString("author");
+				String publisher = myRs.getString("publisher");
+				String publish_date = myRs.getString("publish_date");
+				String isbn = myRs.getString("isbn");
 				String image = myRs.getString("image");
 				String pdf = myRs.getString("pdf");
 
 				// create new book object
-				Book book = new Book(id, category_id, title, description, author, image, pdf);
+				Book book = new Book(id, category_id, title, description, author, publisher, publish_date, isbn, image, pdf);
 
 				// add it to the list of books
 				books.add(book);

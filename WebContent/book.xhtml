@@ -52,7 +52,14 @@
 					<div class="col-md-8">
 						<b>Yazar:</b> #{bookController.book.author}
 						<br /><br />
+						<b>Yayınevi:</b> #{bookController.book.publisher}
+						<br /><br />
+						<b>Yayın Tarihi:</b> #{bookController.book.publish_date}
+						<br /><br />
+						<b>ISBN:</b> #{bookController.book.isbn}
+						<br /><br />
 						<a href="/DigitalLibrary/uploads/image/#{bookController.book.pdf}" class="btn btn-primary">Kitabı İndir</a>
+						<br /><br />
 						<h4>Açıklama</h4>
 						<p>#{bookController.book.description}</p>
 						<h4>Yorumlar</h4>
