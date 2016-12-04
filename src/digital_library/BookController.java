@@ -27,7 +27,7 @@ public class BookController {
 	private Book book;
 	private BookDbUtil bookDbUtil;
 	private Logger logger = Logger.getLogger(getClass().getName());
-	final String filedir = "E:\\workspace\\DigitalLibrary\\WebContent\\resources\\uploads\\";
+	final String filedir = "E:\\workspace\\DigitalLibrary\\WebContent\\uploads\\";
 	
 	public BookController() throws Exception {
 		books = new ArrayList<>();

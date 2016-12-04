@@ -37,8 +37,8 @@
 			<h:form id="form" enctype="multipart/form-data">
 				
 				<b:inputText value="#{book.title}" id="title" label="Title" renderLabel="true"/> <h:message for="title" />
-	
-				<b:inputText value="#{book.description}" id="description" label="Description" renderLabel="true"/> <h:message for="description" />
+				
+				<b:inputTextarea value="#{book.description}" id="description" label="Description" renderLabel="true" rows="5" /> <h:message for="description" />
 				
 				<b:selectOneMenu value="#{book.category_id}" label="Category" renderLabel="true">
 				   <f:selectItems value="#{categoryController.categories}" var="entry" 
@@ -47,7 +47,7 @@
 				
 				<b:inputText value="#{book.author}" id="author" label="Author" renderLabel="true"/> <h:message for="author" />
 				
-				<b:inputText value="#{book.publisher}" id=publisher label="Publisher" renderLabel="true"/> <h:message for="publisher" />
+				<b:inputText value="#{book.publisher}" id="publisher" label="Publisher" renderLabel="true"/> <h:message for="publisher" />
 				
 				<b:inputText value="#{book.publish_date}" id="publish_date" label="Publish Date" renderLabel="true"/> <h:message for="publish_date" />
 				

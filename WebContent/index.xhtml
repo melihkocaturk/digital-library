@@ -34,15 +34,6 @@
 		<ui:insert name="content">
 		
 			<div class="container">
-				<ul class="breadcrumb">
-				    <li>
-				        <a href="#">Home</a>
-				    </li>
-				    <li>
-				        <a href="#">Library</a>
-				    </li>
-				    <li class="active">Data</li>
-				</ul>
 				<div class="row">
 					<div class="col-md-3">
 						<h3>Kategoriler</h3>
@@ -59,8 +50,8 @@
 						<h3>Yeni Eklenenler</h3>
 						
 						<div class="row">
-							<ui:repeat value="#{bookController.books}" var="book" size="2">
-			                    <div class="col-md-3">
+							<ui:repeat value="#{bookController.books}" var="book" size="8">
+			                    <div class="col-md-3 book">
 			                        <img src="/DigitalLibrary/uploads/image/#{book.image}" class="img-responsive"></img>
 			                        <h4>#{book.title}</h4>			                        
 			                        <p><h:outputText value="#{fn:substring(book.description,0,100)}" /></p>

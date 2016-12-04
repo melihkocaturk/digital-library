@@ -35,31 +35,45 @@
 			<div class="container">
 				<ul class="breadcrumb">
 				    <li>
-				        <a href="#">Home</a>
+				        <a href="#{request.contextPath}/faces/index.xhtml">Anasayfa</a>
 				    </li>
 				    <li>
-				        <a href="#">Library</a>
+				        <a href="#">Kategoriler</a>
 				    </li>
-				    <li class="active">Data</li>
+				    <li class="active">#{categoryController.category.name}</li>
 				</ul>
-
-				<h3>#{categoryController.category.name}</h3>
 				
 				<div class="row">
-					<ui:repeat value="#{categoryController.books}" var="book">
-	                    <div class="col-md-2">
-	                        <img src="/DigitalLibrary/uploads/image/#{book.image}" class="img-responsive"></img>
-	                        <h4>#{book.title}</h4>			                        
-	                        <p><h:outputText value="#{fn:substring(book.description,0,100)}" /></p>
-	                        <div class="text-center">
-		                        <h:form>
-		                        	<h:commandLink value="İncele" action="#{bookController.loadBook(book.id, 'book')}" class="btn btn-primary"/>
-		                        </h:form>
-	                        </div>
-	                    </div>
-	                </ui:repeat>
-	            </div>
-
+					<div class="col-md-3">
+						<h3>Kategoriler</h3>
+						
+						<div class="list-group">
+							<ui:repeat value="#{categoryController.categories}" var="category">
+								<h:form>
+									<h:commandLink value="#{category.name}" action="#{categoryController.loadCategory(category.id, 'category')}" class="list-group-item"/>    
+								</h:form>
+							</ui:repeat>
+						</div>
+					</div>
+					<div class="col-md-9">
+						<h3>#{categoryController.category.name}</h3>
+						
+						<div class="row">
+							<ui:repeat value="#{categoryController.books}" var="book">
+			                    <div class="col-md-3 book">
+			                        <img src="/DigitalLibrary/uploads/image/#{book.image}" class="img-responsive"></img>
+			                        <h4>#{book.title}</h4>			                        
+			                        <p><h:outputText value="#{fn:substring(book.description,0,100)}" /></p>
+			                        <div class="text-center">
+				                        <h:form>
+				                        	<h:commandLink value="İncele" action="#{bookController.loadBook(book.id, 'book')}" class="btn btn-primary"/>
+				                        </h:form>
+			                        </div>
+			                    </div>
+			                </ui:repeat>
+			            </div>
+					</div>
+				</div>
 			</div>
 			
 		</ui:insert>
