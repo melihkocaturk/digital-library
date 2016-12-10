@@ -12,6 +12,7 @@
 <f:metadata>
   <f:event type="preRenderView" listener="#{categoryController.loadCategories()}"/>
   <f:event type="preRenderView" listener="#{bookController.loadBooks()}"/>
+  <f:event type="preRenderView" listener="#{bookController.loadPopularBooks()}"/>
 </f:metadata>
 
 <h:head>
@@ -51,6 +52,23 @@
 						
 						<div class="row">
 							<ui:repeat value="#{bookController.books}" var="book" size="8">
+			                    <div class="col-md-3 book">
+			                        <img src="/DigitalLibrary/uploads/image/#{book.image}" class="img-responsive"></img>
+			                        <h4>#{book.title}</h4>			                        
+			                        <p><h:outputText value="#{fn:substring(book.description,0,100)}" /></p>
+			                        <div class="text-center">
+				                        <h:form>
+				                        	<h:commandLink value="İncele" action="#{bookController.loadBook(book.id, 'book')}" class="btn btn-primary"/>
+				                        </h:form>
+			                        </div>
+			                    </div>
+			                </ui:repeat>
+			            </div>
+			            
+						<h3>Popüler Kitaplar</h3>
+						
+						<div class="row">
+							<ui:repeat value="#{bookController.popular}" var="book" size="8">
 			                    <div class="col-md-3 book">
 			                        <img src="/DigitalLibrary/uploads/image/#{book.image}" class="img-responsive"></img>
 			                        <h4>#{book.title}</h4>			                        

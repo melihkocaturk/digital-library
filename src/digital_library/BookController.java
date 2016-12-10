@@ -22,6 +22,7 @@ import javax.servlet.http.Part;
 public class BookController {
 	private List<Book> books;
 	private List<Book> search;
+	private List<Book> popular;
 	private List<Comment> comments;
 	private String keyword;
 	private Book book;
@@ -32,6 +33,7 @@ public class BookController {
 	public BookController() throws Exception {
 		books = new ArrayList<>();
 		search = new ArrayList<>();
+		popular = new ArrayList<>();
 		comments = new ArrayList<>();
 		
 		bookDbUtil = BookDbUtil.getInstance();
@@ -43,6 +45,10 @@ public class BookController {
 	
 	public List<Book> getSearch() {
 		return search;
+	}
+	
+	public List<Book> getPopular() {
+		return popular;
 	}
 
 	public void loadBooks() {
@@ -93,6 +99,25 @@ public class BookController {
 
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	
+	public void loadPopularBooks() {
+		
+		logger.info("Loading popular books");
+		popular.clear();
+
+		try {
+			// get popular books from database
+			popular = bookDbUtil.getPopularBooks();
+			
+		} catch (Exception exc) {
+			// send this to server logs
+			logger.log(Level.SEVERE, "Error loading popular books", exc);
+			
+			// add error message for JSF page
+			addErrorMessage(exc);
+		}
+		
 	}
 
 	public String addBook(Book theBook) {
@@ -215,6 +240,22 @@ public class BookController {
 		}
 		
 		return "books";	
+	}
+	
+	public void readBook(int bookId) {		
+		try {
+			// read count increase to database
+			bookDbUtil.readBook(bookId);
+			
+			logger.info("reading book: " + bookId);
+		} catch (Exception exc) {
+			// send this to server logs
+			logger.log(Level.SEVERE, "Error reading book id:" + bookId, exc);
+			
+			// add error message for JSF page
+			addErrorMessage(exc);
+		}
+	
 	}
 	
 	public void loadComments(int bookId) {

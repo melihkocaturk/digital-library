@@ -135,6 +135,52 @@ public class BookDbUtil {
 			close (myConn, myStmt, myRs);
 		}
 	}
+	
+	public List<Book> getPopularBooks() throws Exception {
+
+		List<Book> books = new ArrayList<>();
+
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myConn = getConnection();
+
+			String sql = "SELECT * FROM books ORDER BY read_count DESC";
+
+			myStmt = myConn.createStatement();
+
+			myRs = myStmt.executeQuery(sql);
+			
+			// process result set
+			while (myRs.next()) {
+				
+				// retrieve data from result set row
+				int id = myRs.getInt("id");
+				int category_id = myRs.getInt("category_id");
+				String title = myRs.getString("title");
+				String description = myRs.getString("description");
+				String author = myRs.getString("author");
+				String publisher = myRs.getString("publisher");
+				String publish_date = myRs.getString("publish_date");
+				String isbn = myRs.getString("isbn");
+				String image = myRs.getString("image");
+				String pdf = myRs.getString("pdf");
+
+				// create new book object
+				Book book = new Book(id, category_id, title, description, author, publisher, publish_date, isbn, image, pdf);
+
+				// add it to the list of books
+				books.add(book);
+			}
+			
+			return books;
+		}
+		finally {
+			close (myConn, myStmt, myRs);
+		}
+	}	
 
 	public void addBook(Book theBook) throws Exception {
 
@@ -144,7 +190,8 @@ public class BookDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "INSERT INTO books (category_id, title, description, author, image, pdf) values (?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO books (category_id, title, description, author, publisher, publish_date, isbn, image, pdf) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			myStmt = myConn.prepareStatement(sql);
 
@@ -153,8 +200,11 @@ public class BookDbUtil {
 			myStmt.setString(2, theBook.getTitle());
 			myStmt.setString(3, theBook.getDescription());
 			myStmt.setString(4, theBook.getAuthor());
-			myStmt.setString(5, theBook.getImage());
-			myStmt.setString(6, theBook.getPdf());
+			myStmt.setString(5, theBook.getPublisher());
+			myStmt.setString(6, theBook.getPublish_date());
+			myStmt.setString(7, theBook.getIsbn());			
+			myStmt.setString(8, theBook.getImage());
+			myStmt.setString(9, theBook.getPdf());
 			
 			myStmt.execute();			
 		}
@@ -220,7 +270,7 @@ public class BookDbUtil {
 			myConn = getConnection();
 
 			String sql = "UPDATE books "
-						+ " SET category_id=?, title=?, description=?, author=?, image=?, pdf=?"
+						+ " SET category_id=?, title=?, description=?, author=?, publisher=?, publish_date=?, isbn=?, image=?, pdf=?"
 						+ " WHERE id=?";
 
 			myStmt = myConn.prepareStatement(sql);
@@ -230,9 +280,12 @@ public class BookDbUtil {
 			myStmt.setString(2, theBook.getTitle());
 			myStmt.setString(3, theBook.getDescription());
 			myStmt.setString(4, theBook.getAuthor());
-			myStmt.setString(5, theBook.getImage());
-			myStmt.setString(6, theBook.getPdf());
-			myStmt.setInt(7, theBook.getId());
+			myStmt.setString(5, theBook.getPublisher());
+			myStmt.setString(6, theBook.getPublish_date());
+			myStmt.setString(7, theBook.getIsbn());
+			myStmt.setString(8, theBook.getImage());
+			myStmt.setString(9, theBook.getPdf());
+			myStmt.setInt(10, theBook.getId());
 			
 			myStmt.execute();
 			
@@ -264,7 +317,33 @@ public class BookDbUtil {
 		finally {
 			close (myConn, myStmt);
 		}		
-	}	
+	}
+	
+	public void readBook(int bookId) throws Exception {
+		logger.info("theBook: " + bookId);
+		
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+
+		try {
+			myConn = getConnection();
+
+			String sql = "UPDATE books SET read_count = read_count + 1 WHERE id=?";
+
+			myStmt = myConn.prepareStatement(sql);
+			
+			// set params
+			myStmt.setInt(1, bookId);
+			
+			myStmt.execute();
+			
+			logger.info("myStmt: " + myStmt.toString());
+		}
+		finally {
+			close (myConn, myStmt);
+		}
+		
+	}
 	
 	public List<Comment> getComments(int bookId) throws Exception {
 

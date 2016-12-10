@@ -6783,9 +6783,12 @@ body {
   background-color: #fff;
   color: #5cb85c;
 }
+.book {
+  height: auto;
+}
 @media (min-width: 992px) {
   .book {
-    min-height: 500px;
+    height: 520px;
   }
 }
 
