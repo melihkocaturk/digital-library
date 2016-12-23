@@ -35,6 +35,17 @@
 	<div id="content">
 		<ui:insert name="content">
 		
+			<!-- Modal -->
+			<b:modal id="modal" title="Sorun Bildir" styleClass="modalPseudoClass">
+				<h:form id="formProblem">		
+					<b:inputTextarea value="#{problem.content}" id="content"/> <h:message for="content" />
+					<b:commandButton value="Gönder" action="#{problemController.addProblem(problem, bookController.book.id)}" look="primary"/>
+				</h:form>
+			    <f:facet name="footer">
+			        <b:button value="Kapat" dismiss="modal" onclick="return false;"/>
+			    </f:facet>
+			</b:modal>
+			
 			<div class="container">
 				<ul class="breadcrumb">
 				    <li>
@@ -44,6 +55,8 @@
 				</ul>
 				
 				<h3>#{bookController.book.title}</h3>
+				
+				<h:messages globalOnly="true" />
 				
 				<div class="row">
 					<div class="col-md-4">
@@ -59,6 +72,7 @@
 						<br /><br />
 						<b>ISBN:</b> #{bookController.book.isbn}
 						<br /><br />
+						<button class="btn btn-default" data-target="#modal" data-toggle="modal">Sorun Bildir</button>
 						<a href="/DigitalLibrary/uploads/pdf/#{bookController.book.pdf}" class="btn btn-primary">Kitabı İndir</a>
 						<br /><br />
 						<h4>Açıklama</h4>
@@ -75,10 +89,9 @@
 						</ui:repeat>
 						<br />
 						<div class="well">
-							<h4>Yorum Ekleyin</h4>		
-							<h:messages globalOnly="true" />
+							<h4>Yorum Ekleyin</h4>
 					
-							<h:form id="form">
+							<h:form id="formComment">
 								
 								<b:inputText value="#{comment.title}" id="title" label="Yorum Başlığı" renderLabel="true"/> <h:message for="title" />
 											
